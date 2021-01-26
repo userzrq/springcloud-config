@@ -1,0 +1,161 @@
+server:
+  port: 8281
+
+spring:
+  application:
+    name: sourtheast-asia
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.jdbc.Driver
+    druid:
+      first:
+        url: jdbc:mysql://192.168.40.184:3306/renren_security?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useLegacyDatetimeCode=false&serverTimezone=UTC
+        username: root
+        password: root123456
+      second:
+        url: jdbc:mysql://192.168.40.184:3306/renren_security?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useLegacyDatetimeCode=false&serverTimezone=UTC
+        username: root
+        password: root123456
+      initial-size: 1
+      min-idle: 1
+      max-active: 10
+      max-wait: 60000
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      validation-query: SELECT 1 FROM DUAL
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+        #login-username: admin
+        #login-password: admin
+      filter:
+        stat:
+          log-slow-sql: true
+          slow-sql-millis: 1000
+          merge-sql: false
+        wall:
+          config:
+            multi-statement-allow: true
+  redis:
+    database: 1
+    host: 192.168.40.184
+    port: 63799
+    password: redis123456 # 密码（默认为空）
+    timeout: 6000ms  # 连接超时时长（毫秒）
+    ssl: false
+    jedis:
+      pool:
+        max-active: 1000  # 连接池最大连接数（使用负值表示没有限制）
+        max-wait: -1ms      # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-idle: 10      # 连接池中的最大空闲连接
+        min-idle: 5       # 连接池中的最小空闲连接
+
+  rabbitmq:
+    host: 192.168.40.183
+    port: 5672
+    username: testrenren
+    password: 123456
+    virtual-host: /
+    template:  #模版
+      retry:   #重试相关信息
+        enabled: true
+        initial-interval: 10000ms  #重试周期
+        max-interval: 30000ms   #最大重试周期
+        multiplier: 2    #重试周期 * 2，不超过max-interval
+      mandatory: true #回调
+
+    publisher-confirms: true  #开启生产者确认
+    publisher-returns: true #开启发送失败退回
+ph:
+  sm:
+    sp_password: 0lS90z2h
+    sub_url: http://125.60.148.174:8312/1/smsmessaging/outbound/5840/requests
+    notify_url: http://rpsmapi.uarocky.com/renren-api/ph/notify/client/delivery/status
+    server_id: 0084002000008781
+    product_id: 1000016205
+  wap:
+    server_id: 0084002000008781
+    sub_url: http://125.60.148.174:8310/SubscribeManageService/services/SubscribeManage
+    product_id: 1000016205
+    notify_url: rpsmapi.uarocky.com/sync/sms/order/relation
+    lp_url: http://rpsmwap.uarocky.com/phgame/?1=1#/
+  sun:
+    sp_password: 0lS90z2h
+    sub_url: http://203.87.166.59:8312/1/smsmessaging/outbound/5840/requests
+    notify_url: http://rpsmapi.uarocky.com/renren-api/sun/notify/client/delivery/status/json
+    server_id: 64092000011881
+    product_id: 1000030425
+    partner_id: 6409
+  wapsun:
+    server_id: 64092000011881
+    sub_url: http://203.87.166.59:8310/SubscribeManageService/services/SubscribeManage
+    product_id: 1000030425
+    #这个试订单同步地址，需要跟SDP一致，不能随意变更
+    notify_url: rpsmapi.uarocky.com/renren-api/sun/sync/order/relation
+    lp_url: http://rpsmwap.uarocky.com/phgame/?1=1
+
+th:
+  user: RockyMobi
+  password: RockyMobi
+  cpId: 3017
+  serviceId: 3017001
+  sub_url: http://isag.cat3g.com/api/api.otp.gw.php
+  sms_url: http://cp.server.com/recv.dr.php
+  sms_sussd_url: http://isag.cat3g.com/api/api.smsussd.php
+  qr:
+    service_id: 459111401
+    aoc_page_url: http://wap.funspaz.com/wap/getmsisdn.php
+    mt:
+      url: http://wap.funspaz.com/QRPartner_API/RockyMobile/InsertContent.php
+      username: RockyMobile
+kh:
+  cellcard:
+    sdp_author_url: https://api-jwt.fortumo.io/authorisations
+    sdp_payment_url: https://api-jwt.fortumo.io/payments
+    sp_payment_callback_url: https://rpsmapi.uarocky.com/renren-api/cambodia/wap/paymentsCallback
+    sp_pin_callback_url: https://rpsmapi.uarocky.com/renren-api/cambodia/wap/getPINCallBack
+    sp_he_callback_url: https://rpsmapi.uarocky.com/renren-api/cambodia/wap/getHECallBack
+    sp_merchant_id: 05845cae3eb2470c6e2ced320b253921
+    sdp_refunds_url: https://api-jwt.fortumo.io/refunds
+    sp_refunds_callback_url: https://rpsmapi.uarocky.com/renren-api/cambodia/wap/unsub/refundsCallBack
+    sdp_sending_messages_url: https://messaging-jwt.fortumo.io/messaging
+    sp_sending_messages_callback_url: https://rpsmapi.uarocky.com/renren-api/cambodia/sms/smsCallback
+    sp_unsub_callback_url: https://rpsmapi.uarocky.com/renren-api/cambodia/wap/unsub/terminateCallBack
+
+mas:
+  mt:
+    url: http://203.223.130.34/api/sendsms.php
+    user: PTRocky
+    pass: ptr135
+
+indonesia:
+  indosat:
+    cp_id: 002900
+    cp_pwd: 6YjvbjSb
+    mt_request_url: http://202.152.162.163:8329/  # http://103.28.15.73/indosat/mt_gis.php
+  telkomsel:
+    adn: 99495
+    mturl: https://api.digitalcore.telkomsel.com/scrt/cp/submitSM.jsp
+    keyword: GAMEBOX
+    tid: 69
+    sid: GAMGENRRMGAMEBOX_Subs
+    apiurl: https://auth2.telkomsel.com/transaksi/tauthwco
+    url: https://api.digitalcore.telkomsel.com/scrt/1/generate.php
+    api_key: 96vjzkq7yn4bprhf56767uqj
+    cp_name: RockyMobi
+    pwd: Rocky_Mobi12345
+    programid: GAMEBOX
+    security: A3waJDtSJj
+    mt_count: 200
+
+
+app:
+  main:
+    thread:
+      corepoolsize: 2
+      maxpoolsize: 3
